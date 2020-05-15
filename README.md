@@ -73,6 +73,55 @@ Arguments:
 * `gid_number` - Group ID (string, optional, computed)
 * `description` - Description for group (string, optional, default: "")
 
+### DNS zone
+
+```tf
+resource "freeipa_dnszone" "zone" {
+  idnsname = "zone."
+  idnssoaretry = 900
+  idnssoaminimum = 100
+  idnsallowdynupdate = true
+}
+```
+
+Arguments can be found in API browser in IPA server under `dnszone_add`
+
+### DNS Record
+
+Example A Record
+```tf
+resource "freeipa_dnsrecord" "arecord" {
+  idnsname = "arecord"
+  dnszoneidnsname = "zone."
+  arecord = ["127.0.0.3", "127.0.0.4"]
+}
+```
+
+Example MX Record
+```tf
+resource "freeipa_dnsrecord" "mxrecord" {
+  idnsname = "mxrecord"
+  dnszoneidnsname = "zone."
+  mxrecord = ["0 testmx.pl", "1 testmx2.pl"]
+}
+```
+
+Also you can reuse names of zone from main.tf
+```tf
+resource "freeipa_dnsrecord" "mxrecord" {
+  idnsname = "mxrecord"
+  dnszoneidnsname = freeipa_dnszone.zone.idnsname
+  mxrecord = ["0 testmx.pl", "1 testmx2.pl"]
+}
+```
+
+Useful docs:
+
+https://www.freeipa.org/page/V2/DNS_Interface_Design#1._New_per-type_structured_API
+https://www.terraform.io/docs/configuration-0-11/resources.html
+
+Arguments can be found in API browser in IPA server under `dnsrecord_add` 
+
 ### Import
 
 ```bash

@@ -1,8 +1,6 @@
 package freeipa
 
-import (
-	ipa "github.com/fiveai/goipa"
-)
+import ipa "github.com/msales/goipa"
 
 type Config struct {
 	Host     string

@@ -37,8 +37,10 @@ func Provider() *schema.Provider {
 		},
 
 		ResourcesMap: map[string]*schema.Resource{
-			"freeipa_user": resourceUser(),
-			"freeipa_group": resourceGroup(),
+			"freeipa_user":      resourceUser(),
+			"freeipa_group":     resourceGroup(),
+			"freeipa_dnszone":   resourceDNSZone(),
+			"freeipa_dnsrecord": resourceDNSRecord(),
 		},
 
 		DataSourcesMap: map[string]*schema.Resource{},
@@ -49,10 +51,10 @@ func Provider() *schema.Provider {
 
 func providerConfigure(d *schema.ResourceData) (interface{}, error) {
 	config := Config{
-		Host:       d.Get("host").(string),
-		Username:   d.Get("username").(string),
-		Password:   d.Get("password").(string),
-		BaseDN:     d.Get("base_dn").(string),
+		Host:     d.Get("host").(string),
+		Username: d.Get("username").(string),
+		Password: d.Get("password").(string),
+		BaseDN:   d.Get("base_dn").(string),
 	}
 
 	return config.NewConnection()
