@@ -7,6 +7,7 @@ type Config struct {
 	Username string
 	Password string
 	BaseDN   string
+	Insecure bool
 }
 
 type Connection struct {
@@ -16,7 +17,7 @@ type Connection struct {
 }
 
 func (cfg *Config) NewConnection() (*Connection, error) {
-	c := ipa.Client{KeyTab: "", Host: cfg.Host}
+	c := ipa.Client{KeyTab: "", Host: cfg.Host, Insecure: cfg.Insecure}
 
 	sess, err := c.Login(cfg.Username, cfg.Password)
 

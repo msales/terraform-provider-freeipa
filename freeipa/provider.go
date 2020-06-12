@@ -34,6 +34,13 @@ func Provider() *schema.Provider {
 				Default:     "",
 				Description: "The LDAP BaseDN",
 			},
+
+			"insecure": &schema.Schema{
+				Type:        schema.TypeBool,
+				Optional:    true,
+				Default:     false,
+				Description: "Should use insecure in HTTPs requests or not.",
+			},
 		},
 
 		ResourcesMap: map[string]*schema.Resource{
@@ -55,6 +62,7 @@ func providerConfigure(d *schema.ResourceData) (interface{}, error) {
 		Username: d.Get("username").(string),
 		Password: d.Get("password").(string),
 		BaseDN:   d.Get("base_dn").(string),
+		Insecure: d.Get("insecure").(bool),
 	}
 
 	return config.NewConnection()
